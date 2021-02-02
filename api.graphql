@@ -1,21 +1,27 @@
-#query {
-#  tradingPairs(first: 10, where: {fromToken: "0x111111111117dc0aa78b770fa6a738034120c302"}) {
-#    id
-#    fromToken {
-#      name
-#    }
-#
-#    toToken {
-#      name
-#    }
-#    tradeVolume
-#    tradeCount
-#  }
-#}
+query($pairId: String!) {
+  swaps(first: 200, orderBy: timestamp, where: {
+      pair: $pairId,
+      timestamp_gt: 1611964800,
+      timestamp_lt: 1612051200,
+  }) {
+    id
+    pair {
+      token0 { symbol }
+      token1 { symbol }
+    }
 
-query {
-  tokens(where: {symbol: "ETH"}) {
-    symbol
-    name
+    transaction {
+      id
+      timestamp
+    }
+
+    timestamp
+    amount0In
+    amount0Out
+    amount1In
+    amount1Out
+    logIndex
+    amountUSD
   }
 }
+
